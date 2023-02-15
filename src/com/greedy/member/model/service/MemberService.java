@@ -3,41 +3,40 @@ package com.greedy.member.model.service;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.greedy.member.model.dao.MemberDAO;
 import com.greedy.member.model.dto.MemberDTO;
-import static com.greedy.common.JDBCTemplate.getConnection;
-import static com.greedy.common.JDBCTemplate.close;
-import static com.greedy.common.JDBCTemplate.commit;
-import static com.greedy.common.JDBCTemplate.rollback;
+import static com.greedy.common.Template.getSqlSession;
 
 public class MemberService {
 
 	private MemberDAO memberDAO = new MemberDAO();
 	
 	public boolean createNewMember(MemberDTO member) {
-
-		Connection con = getConnection();
 		
-		int result = memberDAO.insertNewMember(con, member);
+		SqlSession sqlSession = getSqlSession();
+		
+		int result = memberDAO.insertNewMember(sqlSession, member);
 		
 		if(result > 0) {
-			commit(con);
+			sqlSession.commit();
 		} else {
-			rollback(con);
+			sqlSession.rollback();
 		}
 		
-		close(con);
+		sqlSession.close();
 		
 		return result > 0? true: false;
 	}
 
 	public List<MemberDTO> selectAllMember() {
 		
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		List<MemberDTO> memberList = memberDAO.selectMemberList(con);
+		List<MemberDTO> memberList = memberDAO.selectMemberList(sqlSession);
 		
-		close(con);
+		sqlSession.close();
 		
 		
 		return memberList;
@@ -45,79 +44,109 @@ public class MemberService {
 	
 	public MemberDTO selectMemberById(String id) {
 		
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.selectIdMember(con, id);
+		MemberDTO result = memberDAO.selectIdMember(sqlSession, id);
 		
-		close(con);
+		sqlSession.close();
 		
 		return result;
 	}
 
 	public List<MemberDTO> selectMemberByGender(String gender) {
 		
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		List<MemberDTO> memberList = memberDAO.selectMemberGenList(con, gender);
+		List<MemberDTO> memberList = memberDAO.selectMemberGenList(sqlSession, gender);
 		
-		close(con);
+		sqlSession.close();
 		
 		return memberList;
 	}
 
-	public MemberDTO updatePwdById(String memberId, String password) {
+	public boolean updatePwdById(MemberDTO member) {
 
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.updatePwd(con, memberId, password);
+		int result = memberDAO.updatePwd(sqlSession, member);
 		
-		close(con);
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
 		
-		return result;
+		sqlSession.close();
+		
+		return result > 0? true: false;
 	}
 
-	public MemberDTO updateEmailById(String memberId, String email) {
+	public boolean updateEmailById(MemberDTO member) {
 
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.updateEmail(con, memberId, email);
+		int result = memberDAO.updateEmail(sqlSession, member);
 		
-		close(con);
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
 		
-		return result;
+		sqlSession.close();
+		
+		return result > 0? true: false;
 	}
 
-	public MemberDTO updatePhoneById(String memberId, String phone) {
+	public boolean updatePhoneById(MemberDTO member) {
 
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.updatePhone(con, memberId, phone);
+		int result = memberDAO.updatePhone(sqlSession, member);
 		
-		close(con);
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
 		
-		return result;
+		sqlSession.close();
+		
+		return result > 0? true: false;
 	}
 
-	public MemberDTO updateAddressById(String memberId, String address) {
+	public boolean updateAddressById(MemberDTO member) {
 
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.updateAddress(con, memberId, address);
+		int result = memberDAO.updateAddress(sqlSession, member);
 		
-		close(con);
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
 		
-		return result;
+		sqlSession.close();
+		
+		return result > 0? true: false;
 	}
 
-	public MemberDTO deleteMemberById(String memberId) {
+	public boolean deleteMemberById(MemberDTO member) {
 
-		Connection con = getConnection();
+		SqlSession sqlSession = getSqlSession();
 		
-		MemberDTO result = memberDAO.deleteMemberInfo(con, memberId);
+		int result = memberDAO.deleteMemberInfo(sqlSession, member);
 		
-		close(con);
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
 		
-		return result;
+		sqlSession.close();
+		
+		return result > 0? true: false;
 	}
 
 }

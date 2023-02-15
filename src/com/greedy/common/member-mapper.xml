@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="MemberMapper">
+  
+  		<!--  조회한 컬럼과 DTO를 매핑시키기 위한 설정이다. -->
+  		<resultMap id="memberResultMap" type="com.greedy.member.model.dto.MemberDTO">
+  			<id property="no" column="MEMBER_NO"/>
+  			<result property="id" column="MEMBER_ID"/>
+  			<result property="pwd" column="MEMBER_PWD"/>
+  			<result property="name" column="MEMBER_NAME"/>
+  			<result property="gender" column="GENDER"/>
+  			<result property="email" column="EMAIL"/>
+  			<result property="phone" column="PHONE"/>
+  			<result property="address" column="ADDRESS"/>
+  			<result property="age" column="AGE"/>
+  			<result property="enrollDate" column="ENROLL_DATE"/>
+  		</resultMap>
+  
+  		<insert id="insertMember" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			INSERT
+				INTO TBL_MEMBER A
+				(
+				A.MEMBER_NO
+			  , A.MEMBER_ID
+			  , A.MEMBER_PWD
+			  , A.MEMBER_NAME
+			  , A.GENDER
+			  , A.EMAIL
+			  , A.PHONE
+			  , A.ADDRESS
+			  , A.AGE
+			  , A.ENROLL_DATE
+				)
+				VALUES
+				(
+				SEQ_MEMBER_NO.NEXTVAL
+				, #{ id }
+				, #{ pwd }
+				, #{ name }
+				, #{ gender }
+				, #{ email }
+				, #{ phone }
+				, #{ address }
+				, #{ age }
+				, SYSDATE
+				)
+  		</insert>
+  		
+  		 <select id="selectMember" resultMap="memberResultMap">
+ 			SELECT
+					A.MEMBER_NO
+				  , A.MEMBER_ID
+				  , A.MEMBER_PWD
+				  , A.MEMBER_NAME
+				  , A.GENDER
+				  , A.EMAIL
+				  , A.PHONE
+				  , A.ADDRESS
+				  , A.AGE
+				  , A.ENROLL_DATE
+ 			  FROM TBL_MEMBER A
+ 			 ORDER BY A.MEMBER_NO
+ 			  
+  		</select>
+  		
+  		<select id="selectMemberById" parameterType="string" resultMap="memberResultMap">
+  			SELECT
+					A.MEMBER_NO
+				  , A.MEMBER_ID
+				  , A.MEMBER_PWD
+				  , A.MEMBER_NAME
+				  , A.GENDER
+				  , A.EMAIL
+				  , A.PHONE
+				  , A.ADDRESS
+				  , A.AGE
+				  , A.ENROLL_DATE
+ 			  FROM TBL_MEMBER A
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</select>
+  		
+  		<select id="selectMemberByGender" parameterType="string" resultMap="memberResultMap">
+  			SELECT
+					A.MEMBER_NO
+				  , A.MEMBER_ID
+				  , A.MEMBER_PWD
+				  , A.MEMBER_NAME
+				  , A.GENDER
+				  , A.EMAIL
+				  , A.PHONE
+				  , A.ADDRESS
+				  , A.AGE
+				  , A.ENROLL_DATE
+ 			  FROM TBL_MEMBER A
+  			 WHERE A.GENDER = #{ gender }
+  		</select>
+  		
+  		<update id="updatePwd" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			UPDATE
+  				   TBL_MEMBER A
+  			   SET A.MEMBER_PWD = #{ pwd }
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</update>
+  		
+  		<update id="updateEmail" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			UPDATE
+  				   TBL_MEMBER A
+  			   SET A.EMAIL = #{ email }
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</update>
+  		
+  		<update id="updatePhone" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			UPDATE
+  				   TBL_MEMBER A
+  			   SET A.PHONE = #{ phone }
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</update>
+  		
+  		<update id="updateAddress" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			UPDATE
+  				   TBL_MEMBER A
+  			   SET A.ADDRESS = #{ address }
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</update>
+  		
+  		<delete id="deleteMember" parameterType="com.greedy.member.model.dto.MemberDTO">
+  			DELETE
+  			  FROM TBL_MEMBER A
+  			 WHERE A.MEMBER_ID = #{ id }
+  		</delete>
+  </mapper>

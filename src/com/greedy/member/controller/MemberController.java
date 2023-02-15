@@ -18,28 +18,34 @@ public class MemberController {
 	private MemberService memberService = new MemberService();
 	
 	/* 신규 회원 등록용 메소드 */
-	public void registNewMember(Map<String, String> requestMap) {
+	public void registNewMember(Map<String, String> parameter) {
 		
 		/* Map으로 전달 된 데이터를 꺼내 MemberDTO에 담아 Service로 전달 */
 		
-		System.out.println(requestMap);
+
+		String id = parameter.get("id");
+		String pwd = parameter.get("pwd");
+		String name = parameter.get("name");
+		String gender = parameter.get("gender");
+		String email = parameter.get("email");
+		String phone = parameter.get("phone");
+		String address = parameter.get("address");
+		int age = Integer.parseInt(parameter.get("age"));
 		
 		MemberDTO member = new MemberDTO();
-		member.setId(requestMap.get("memberId"));
-		member.setPwd(requestMap.get("memberPwd"));
-		member.setName(requestMap.get("memberName"));
-		member.setGender(requestMap.get("gender"));
-		member.setEmail(requestMap.get("email"));
-		member.setPhone(requestMap.get("phone"));
-		member.setAddress(requestMap.get("address"));
-		member.setAge(Integer.parseInt(requestMap.get("age")));
+		
+		member.setId(id);
+		member.setPwd(pwd);
+		member.setName(name);
+		member.setGender(gender);
+		member.setEmail(email);
+		member.setPhone(phone);
+		member.setAddress(address);
+		member.setAge(age);
 		
 		System.out.println(member);
 		
-		boolean isCreated = memberService.createNewMember(member);
-		
-		MemberResultView memberResultView = new MemberResultView();
-		if(isCreated) {
+		if(memberService.createNewMember(member)) {
 			memberResultView.displayDmlResult("insertSuccess");
 		} else {
 			memberResultView.displayDmlResult("insertFailed");
@@ -60,7 +66,9 @@ public class MemberController {
 	}
 	
 	/* 아이디를 이용한 회원 정보 검색(MemberDTO로 한 명 회원 정보 조회) */
-	public void searchMemberById(String id) {
+	public void searchMemberById(Map<String, String> parameter) {
+		
+		String id = parameter.get("id");
 		
 		MemberDTO selectedMem = memberService.selectMemberById(id);
 		
@@ -73,7 +81,9 @@ public class MemberController {
 	}
 	
 	/* 성별을 이용한 회원 정보 검색 (List로 조회할 것)*/
-	public void searchMemberByGender(String gender) {
+	public void searchMemberByGender(Map<String, String> parameter) {
+		
+		String gender = parameter.get("gender");
 		
 		List<MemberDTO> memberList = memberService.selectMemberByGender(gender);
 		
@@ -85,11 +95,19 @@ public class MemberController {
 	}
 	
 	/* 입력받은 아이디와 일치하는 회원의 비밀번호 변경 */
-	public void modifyPassword(String memberId, String password) {
+	public void modifyPassword(Map<String, String> memberId, Map<String, String> memberPwd) {
 		
-		MemberDTO selectedMem = memberService.updatePwdById(memberId, password);
+		String id = memberId.get("id");
+		String pwd = memberPwd.get("pwd");
 		
-		if(selectedMem != null) {
+		MemberDTO member = new MemberDTO();
+		
+		member.setId(id);
+		member.setPwd(pwd);
+//		
+//		System.out.println(member);
+		
+		if(memberService.updatePwdById(member)) {
 			memberResultView.displayDmlResult("updateSuccess");
 		} else {
 			memberResultView.displayDmlResult("updateFailed");
@@ -98,11 +116,17 @@ public class MemberController {
 	}
 	
 	/* 입력받은 아이디와 일치하는 회원의 이메일 변경 */
-	public void modifyEmail(String memberId, String email) {
+	public void modifyEmail(Map<String, String> memberId, Map<String, String> memberemail) {
+				
+		String id = memberId.get("id");
+		String email = memberemail.get("email");
 		
-		MemberDTO selectedMem = memberService.updateEmailById(memberId, email);
+		MemberDTO member = new MemberDTO();
 		
-		if(selectedMem != null) {
+		member.setId(id);
+		member.setEmail(email);
+		
+		if(memberService.updateEmailById(member)) {
 			memberResultView.displayDmlResult("updateSuccess");
 		} else {
 			memberResultView.displayDmlResult("updateFailed");
@@ -111,11 +135,17 @@ public class MemberController {
 	}
 	
 	/* 입력받은 아이디와 일치하는 회원의 전화번호 변경 */
-	public void modifyPhone(String memberId, String phone) {
+	public void modifyPhone(Map<String, String> memberId, Map<String, String> memberphone) {
 		
-		MemberDTO selectedMem = memberService.updatePhoneById(memberId, phone);
+		String id = memberId.get("id");
+		String phone = memberphone.get("phone");
 		
-		if(selectedMem != null) {
+		MemberDTO member = new MemberDTO();
+		
+		member.setId(id);
+		member.setPhone(phone);
+		
+		if(memberService.updatePhoneById(member)) {
 			memberResultView.displayDmlResult("updateSuccess");
 		} else {
 			memberResultView.displayDmlResult("updateFailed");
@@ -124,11 +154,17 @@ public class MemberController {
 	}
 	
 	/* 입력받은 아이디와 일치하는 회원의 주소 변경 */
-	public void modifyAddress(String memberId, String address) {
+	public void modifyAddress(Map<String, String> memberId, Map<String, String> memberaddress) {
 		
-		MemberDTO selectedMem = memberService.updateAddressById(memberId, address);
+		String id = memberId.get("id");
+		String address = memberaddress.get("address");
 		
-		if(selectedMem != null) {
+		MemberDTO member = new MemberDTO();
+		
+		member.setId(id);
+		member.setAddress(address);
+		
+		if(memberService.updateAddressById(member)) {
 			memberResultView.displayDmlResult("updateSuccess");
 		} else {
 			memberResultView.displayDmlResult("updateFailed");
@@ -137,11 +173,15 @@ public class MemberController {
 	}
 	
 	/* 회원 정보 삭제용 메소드 */
-	public void deleteMember(String memberId) {
+	public void deleteMember(Map<String, String> memberId) {
 
-		MemberDTO selectedMem = memberService.deleteMemberById(memberId);
+		String id = memberId.get("id");
 		
-		if(selectedMem != null) {
+		MemberDTO member = new MemberDTO();
+		
+		member.setId(id);
+		
+		if(memberService.deleteMemberById(member)) {
 			memberResultView.displayDmlResult("deleteSuccess");
 		} else {
 			memberResultView.displayDmlResult("deleteFailed");

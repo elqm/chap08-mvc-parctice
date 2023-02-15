@@ -47,12 +47,16 @@ public class MemberMenu {
 		
 	}
 	
-	public String inputMemberId() {
+	public static Map<String, String> inputMemberId() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("회원 아이디 : ");
-		sc.nextLine();
+		String id = sc.nextLine();
 		
-		return sc.nextLine();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("id", id);
+		
+		return parameter;
 	}
 	
 	public Map<String, String> inputMember() {
@@ -60,11 +64,11 @@ public class MemberMenu {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("등록할 회원의 아이디를 입력해주세요 : ");
-		String memberId = sc.nextLine();
+		String id = sc.nextLine();
 		System.out.print("등록할 회원의 비밀번호를 입력해주세요 : ");
-		String memberPwd = sc.nextLine();
+		String pwd = sc.nextLine();
 		System.out.print("등록할 회원의 이름을 입력해주세요 : ");
-		String memberName = sc.nextLine();
+		String name = sc.nextLine();
 		System.out.print("등록할 회원의 성별을 입력해주세요 : ");
 		String gender = sc.nextLine();
 		System.out.print("등록할 회원의 이메일을 입력해주세요 : ");
@@ -80,9 +84,9 @@ public class MemberMenu {
 		Map<String, String> map = new HashMap<>();
 		
 		/* 여기서는 사용자의 입력을 받아 맵에 넣는 것을 하면 됩니다. */
-		map.put("memberId", memberId);
-		map.put("memberPwd", memberPwd);
-		map.put("memberName", memberName);
+		map.put("id", id);
+		map.put("pwd", pwd);
+		map.put("name", name);
 		map.put("gender", gender);
 		map.put("email", email);
 		map.put("phone", phone);
@@ -93,40 +97,65 @@ public class MemberMenu {
 		return map;
 	}
 	
-	public String inputGender() {
+	public static Map<String, String> inputGender() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("조회할 성별 입력(남:M/여:F) : ");
-		sc.nextLine();
+		String gender = sc.nextLine();
 		
-		return sc.nextLine().toUpperCase();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("gender", gender);
+		
+		return parameter;
 	}
 	
-	public String inputPassword() {
+	public static Map<String, String> inputPassword() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("수정할 비밀번호 입력 : ");
+		String pwd = sc.nextLine();
 		
-		return sc.nextLine();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("pwd", pwd);
+		 
+		return parameter;
+		
 	}
 	
-	public String inputEmail() {
+	public static Map<String, String> inputEmail() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("수정할 이메일 입력 : ");
+		String email = sc.nextLine();
 		
-		return sc.nextLine();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("email", email);
+		 
+		return parameter;
 	}
 	
-	public String inputPhone() {
+	public static Map<String, String> inputPhone() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("수정할 전화번호 입력 : ");
+		String phone = sc.nextLine();
 		
-		return sc.nextLine();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("phone", phone);
+		 
+		return parameter;
 	}
 	
-	public String inputAddress() {
+	public static Map<String, String> inputAddress() {
 		
+		Scanner sc = new Scanner(System.in);
 		System.out.print("수정할 주소 입력 : ");
+		String address = sc.nextLine();
 		
-		return sc.nextLine();
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("address", address);
+		 
+		return parameter;
 	}
 	
 }
